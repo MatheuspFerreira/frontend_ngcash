@@ -1,15 +1,20 @@
 import { LockOutlined, UserOutlined, StarOutlined } from '@ant-design/icons';
 import { Button, Form, Input } from 'antd';
 import React from 'react';
-import logo from '../../_assets/logo-ngcash-branco.88c5860.svg';
+import { useNavigate } from 'react-router-dom';
 import celphoneLogo from '../../_assets/ngcash.png'
 import './login.css';
 
 
 export function Login () {
+
+    const navigate = useNavigate()
+
     const onFinish = (values: any) => {
         console.log('Received values of form: ', values);
     };
+
+    
 
 
     return (
@@ -29,7 +34,6 @@ export function Login () {
                 </div>
             </div>
             <div className='Login__secondContent'>
-                <img  className='Login__logo' src={logo} alt="NG.CA$H_logo.svg" />
                 <div className='Login__form'>
                     <h3>Acessar minha conta</h3>
                     <Form
@@ -66,11 +70,11 @@ export function Login () {
                         
                         </Form.Item>
                             
-                            <a className="login-form-forgot" href="/#">
+                            <p className="login-form-forgot">
                                 Esqueci minha senha
-                            </a>
-                            <p>
-                                <a href="#/"> Registre-se agora!</a>
+                            </p>
+                            <p onClick={()=> navigate('/register', {replace:true})}>
+                                Registre-se agora!
                             </p>
                         </Form.Item>
  
