@@ -20,7 +20,7 @@ export function Home () {
                     <h1>Bem vindo, {'Matheus'}</h1>
 
                 </div>
-                <div className='Home__headerContent'>
+                <div className='Home__options'>
                 <Tooltip title="Notificações" placement="bottom">
                     <BellFilled className='Home__bntLogOut'/>
                 </Tooltip>
@@ -44,9 +44,8 @@ export function Home () {
                     </div>
                     <div>
                         <Search 
-                            placeholder="Digite nome do usuário" 
+                            placeholder="Digite nome do usuário para transferir" 
                             allowClear onSearch={onSearch} 
-                            
                             id='Home__search'
                         />
 
@@ -55,21 +54,42 @@ export function Home () {
                 </div>
                 <h2><AppstoreOutlined /> Histórico de transações</h2>
                 <div className='Home__secondContent'>
-                    
                     <div className='Home__bg'>
-                        <ul>
-                            <li>Id</li>
-                            <li>Usuário</li>
-                            <li>Valor</li>
-                            <li>Data</li>
-                            <li>Tipo</li>
-                        </ul>
+                        <div className='Home__transações'>
+                            <ul>
+                                <li>Id</li>
+                                <li>Usuário</li>
+                                <li>Valor</li>
+                                <li>Data</li>
+                                <li>Tipo</li>
+                            </ul>
+                            <ul>
+                                <li>35</li>
+                                <li>Matheus</li>
+                                <li>R$ 200,00</li>
+                                <li>15/11/2022</li>
+                                <li>Cash-in</li>
+                            </ul>
+                        </div>
+                        <div className='Home__filter'>
+                            <h3>Filtrar</h3>
+                            <p>Tipo de transação</p>
+                            <Tooltip placement="bottom" title="Filtrar por">
+                            <select name="Identificação_do_cliente" required className='Cliente__options' >
+                                <option  value={"Cash-in"} >Cash-in</option>
+                                <option  value={"Cash-out"} >Cash-out</option>
+
+                            </select> 
+                            <p>Data da transação</p>
+                            <input type="date" name="" id="" />
+                           
+
+                            </Tooltip>
+                        </div>
                     </div>
 
                 </div>
-                
-                
-
+                               
             </div>
 
         </div>
