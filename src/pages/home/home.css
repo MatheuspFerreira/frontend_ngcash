@@ -47,7 +47,6 @@
     justify-content: left;
     gap: 90px;
     margin-left: 15%;
-    
 
 }
 
@@ -63,8 +62,7 @@
 }
 
 .Home__logo {
-    width: 16%;
-    margin-top: 5%;
+    width: 13%; 
 
 }
 
@@ -82,6 +80,7 @@
 
 .Home__content {
     width: 100%;
+    height: 70%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -123,7 +122,7 @@
 }
 
 .Home__saldoInput {
-    width: 30% !important;
+    width: 32% !important;
     height: 35px !important;
     border-radius: 20px !important;
     
@@ -144,7 +143,8 @@
 .Home__secondContent {
     width: 70%;
     background-color: white;
-    height: 310px;
+    height: 100%;
+    min-height: 0px;
     margin: 0;
     border-radius: 10px;
     -webkit-box-shadow: 0px 5px 15px -5px rgba(0,0,0,0.31); 
@@ -155,7 +155,7 @@
 .Home__bg {
     width: 99%;
     background-color: white;
-    height: 290px;
+    height:92%;
     margin: 0;
     margin-top: 10px;
     overflow-y: scroll;
@@ -166,9 +166,12 @@
 
 .Home__transações {
     width: 75%;
+    height: 100%;
     margin-left: 25%;
 
 }
+
+
 
 .Home__secondContent ul {
     width: 100%;
@@ -176,7 +179,6 @@
     align-items:center;
     justify-content: center;
     margin-top: 15px;
-    
 
 }
 
@@ -204,12 +206,13 @@
     border-radius: 10px;
     -webkit-box-shadow: 0px 5px 15px -5px rgba(0,0,0,0.31); 
     box-shadow: 0px 5px 15px -5px rgba(0,0,0,0.31); 
-
+    
 }
 
 .Home__filter h3 {
     margin: 0;
     font-weight: bold;
+
 }
 
 .Home__filter p {
@@ -217,3 +220,84 @@
     font-weight: bold;
     
 }
+
+
+@media screen and (max-width:1400px) {
+
+    .Home__header h1{
+        font-size: 20px;
+    
+    }
+
+    .Home__bntLogOut{
+        font-size: 22px !important;
+
+    }
+
+    .Home__content  {
+        height: 68%;
+        margin-top: 4%;
+
+    }
+
+    .Home__content h2 {
+        font-size: 20px;
+        
+    }
+
+    .Home__content p {
+        font-size: 18px;
+
+    }
+
+    .Home__firstContent {
+        margin: 0;
+
+    }
+
+    .Home__saldoInput {
+        width: 32% !important;
+        height: 30px !important;
+        border-radius: 20px !important;
+        
+    }
+    
+    #Home__search  {
+        width: 400px !important;
+        height: 30px !important;
+    
+    }
+    
+    .ant-input-search-button {
+        width: 40px !important;
+        height: 40px !important;
+    
+    }
+
+    .Home__filter {
+        width: 15%;
+        min-width: 155px;
+        position: relative;
+        left: 5%;
+        bottom: 62%;
+        padding: 20px 15px;
+      
+    }
+
+    .Home__filter h3 {
+        margin: 0;
+        font-weight: bold;
+        font-size: 16px;
+
+    }
+    
+    .Home__filter p {
+        margin: 10px 0;
+        font-weight: bold;
+        font-size: 13px;
+        
+    }
+    
+}
+
+/*MOBILE VERSION */
