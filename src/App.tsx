@@ -3,6 +3,8 @@ import { Footer } from "./components/footer";
 import { Home } from "./pages/home";
 import { Login } from "./pages/login";
 import { Register } from "./pages/register";
+import {PrivateRoute} from "../src/pages/privateRoute"
+import { NotFound } from "./pages/notFound";
 
 
 function App() {
@@ -29,8 +31,18 @@ function App() {
 
           <Route path="/home" 
             element={
+             <PrivateRoute> 
+              <Home/>
+            </PrivateRoute>
               
-            <Home />
+          } 
+          />
+
+          <Route path="*" 
+            element={
+             <PrivateRoute> 
+              <NotFound />
+            </PrivateRoute>
               
           } 
           />

@@ -9,8 +9,17 @@ const { Search } = Input;
 const onSearch = (value: string) => console.log(value);
 
 
-export function Home () {
+
+
+export function Home ({data}:any) {
     const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
+    const [user, setUser]= useState(data)
+
+    function logOut () {
+        localStorage.clear();
+        window.location.reload();
+
+    };
    
     return(
         <div className='Home__container'>
@@ -25,7 +34,7 @@ export function Home () {
                     <BellFilled className='Home__bntLogOut'/>
                 </Tooltip>
                 <Tooltip title="Logout" placement="bottom">
-                    <LogoutOutlined className='Home__bntLogOut' />
+                    <LogoutOutlined className='Home__bntLogOut' onClick={logOut}/>
                 </Tooltip>
                 </div>
             </div>
@@ -73,18 +82,23 @@ export function Home () {
                         </div>
                         <div className='Home__filter'>
                             <h3>Filtrar</h3>
-                            <p>Tipo de transação</p>
-                            <Tooltip placement="bottom" title="Filtrar por">
-                            <select name="Identificação_do_cliente" required className='Cliente__options' >
-                                <option  value={"Cash-in"} >Cash-in</option>
-                                <option  value={"Cash-out"} >Cash-out</option>
+                            <section>
+                                <label htmlFor="dentificação_do_cliente">Tipo de transação</label>
+                                <Tooltip placement="bottom" title="Filtrar por">
+                                    <select name="Identificação_do_cliente" required className='Cliente__options' >
+                                        <option  value={"Cash-in"} >Cash-in</option>
+                                        <option  value={"Cash-out"} >Cash-out</option>
 
-                            </select> 
-                            <p>Data da transação</p>
-                            <input type="date" name="" id="" />
-                           
+                                    </select> 
+                                    
+                                    
+                                </Tooltip>
+                            </section>
+                            <section>
+                                <label htmlFor="date">Data da transação</label>
+                                <input type="date" name='date'/>
 
-                            </Tooltip>
+                            </section>
                         </div>
                     </div>
 
