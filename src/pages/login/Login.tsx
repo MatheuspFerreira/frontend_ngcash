@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import login from '../../actions/auth/login';
 import verifyToken from '../../actions/auth/verify-token';
+import { Carregando } from '../../components/carregando';
 import celphoneLogo from '../../_assets/ngcash.png';
 import './login.css';
 
@@ -12,6 +13,7 @@ type NotificationType = 'success' | 'info' | 'warning' | 'error';
 export function Login () {
     const [userName, setUserName]= useState<string>('');
     const [password, setPassword]= useState<string>('');
+    const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
 
 
@@ -54,15 +56,19 @@ export function Login () {
     },[navigate]);
 
     async function createLogin () {
+        setLoading(true)
         const getLogin = await login(userName, password);
         console.log(getLogin)
 
         if(getLogin?.error) {
             openNotificationWithIcon('error', 'Atenção!', `${getLogin.message}`);
+            setLoading(false)
            
             
             return;
         };
+
+        setLoading(false)
 
         navigate(
             '/home', 
@@ -123,7 +129,13 @@ export function Login () {
                         <Form.Item>
                         <Form.Item name="remember" valuePropName="checked" noStyle>
                         <Form.Item>
-                            
+
+                        {
+                            loading ?
+                            < Carregando
+                                textCarregando='Aguarde...'
+                            />
+                            :
                             <Button 
                                 type="primary" 
                                 htmlType="submit" 
@@ -132,6 +144,11 @@ export function Login () {
                             >
                                 Entrar 
                             </Button> 
+                            
+                            
+                        } 
+                            
+                            
                              
                         </Form.Item>
                         

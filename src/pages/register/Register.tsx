@@ -2,6 +2,7 @@ import { LockOutlined, UserOutlined} from '@ant-design/icons';
 import { Button, Form, Input, notification } from 'antd';
 import { useState } from 'react';
 import register from '../../actions/user/register';
+import { Carregando } from '../../components/carregando';
 import { Feedback } from '../../components/feedback';
 import './register.css';
 
@@ -9,12 +10,11 @@ type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
 export function Register () {
     const [result, setResult] = useState<boolean>(false);
-    const [user, setUser] = useState<any>();
+    const [username, setUserName] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(false);
 
-    const onFinish = (values: any) => {
-        setUser(values);
-
-    };
+    
 
     const openNotificationWithIcon = (type: NotificationType, message:string, description:string) => {
         notification[type]({
@@ -25,13 +25,16 @@ export function Register () {
     };
 
     async function userRegister () {
-        const userRegister = await register(user.username, user.password);
+        setLoading(true)
+        const userRegister = await register(username, password);
 
         if(userRegister.error){
+            setLoading(false)
             openNotificationWithIcon('error', 'Atenção!', userRegister.message);
             return;
 
         };
+        setLoading(false)
         setResult(true);
         
     }
@@ -45,15 +48,21 @@ export function Register () {
                 <Form
                     name="normal_login"
                     className="login-form"
-                    initialValues={{ remember: true }}
-                    onFinish={onFinish}
+                    
+                   
                     
                 >
                     <Form.Item
                         name="username"
                         rules={[{ required: true, message: 'Please input your Username!' }]}
                     >
-                        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+                        <Input 
+                            prefix={<UserOutlined 
+                            className="site-form-item-icon" />} 
+                            placeholder="Username" 
+                            onChange={event=> setUserName(event.target.value)}
+                           
+                        />
                     </Form.Item>
                     <Form.Item
                         name="password"
@@ -63,15 +72,25 @@ export function Register () {
                             prefix={<LockOutlined className="site-form-item-icon" />}
                             type="password"
                             placeholder="Password"
+                            onChange={event=> setPassword(event.target.value)}
+                           
                         />
                     </Form.Item>
                     <Form.Item>
                     <Form.Item name="remember" valuePropName="checked" noStyle>
                     <Form.Item>
                                 
-                        <Button type="primary" htmlType="submit" className="login-form-button" onClick={userRegister}>
-                            Cadastrar
-                        </Button> 
+                        {
+                            loading ?
+                            < Carregando
+                                textCarregando='Aguarde...'
+                            />
+                            :
+                            
+                            <Button type="primary" htmlType="submit" className="login-form-button" onClick={userRegister}>
+                                Cadastrar
+                            </Button>
+                        } 
                                 
                     </Form.Item>
                     </Form.Item>
