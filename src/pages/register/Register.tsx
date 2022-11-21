@@ -1,18 +1,40 @@
 import { LockOutlined, UserOutlined} from '@ant-design/icons';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, notification } from 'antd';
 import { useState } from 'react';
+import register from '../../actions/user/register';
 import { Feedback } from '../../components/feedback';
 import './register.css';
 
+type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
 export function Register () {
     const [result, setResult] = useState<boolean>(false);
-    const [success, setSuccess] = useState<boolean>(false);
-    const [error, setError] = useState<boolean>(false);
+    const [user, setUser] = useState<any>();
 
     const onFinish = (values: any) => {
-        console.log('Received values of form: ', values);
+        setUser(values);
+
     };
+
+    const openNotificationWithIcon = (type: NotificationType, message:string, description:string) => {
+        notification[type]({
+          message: message,
+          description: description
+          
+        });
+    };
+
+    async function userRegister () {
+        const userRegister = await register(user.username, user.password);
+
+        if(userRegister.error){
+            openNotificationWithIcon('error', 'Atenção!', userRegister.message);
+            return;
+
+        };
+        setResult(true);
+        
+    }
 
     return(
         <div className='Register__container'>
@@ -25,6 +47,7 @@ export function Register () {
                     className="login-form"
                     initialValues={{ remember: true }}
                     onFinish={onFinish}
+                    
                 >
                     <Form.Item
                         name="username"
@@ -46,7 +69,7 @@ export function Register () {
                     <Form.Item name="remember" valuePropName="checked" noStyle>
                     <Form.Item>
                                 
-                        <Button type="primary" htmlType="submit" className="login-form-button" >
+                        <Button type="primary" htmlType="submit" className="login-form-button" onClick={userRegister}>
                             Cadastrar
                         </Button> 
                                 
@@ -58,7 +81,6 @@ export function Register () {
 
                 </div>
                 <div className={ result ? 'Register__result' : '--Disable'}>
-                <div className={ success ? 'Register__sucess' : '--Disable'}>
                 <Feedback 
                     status={'success'}
                     title={'Seu cadastro foi realizado com sucesso!'}
@@ -67,19 +89,6 @@ export function Register () {
                     click={()=>''}
                         
                 />
-
-                </div>
-                <div className={ error ? 'Register__error' : '--Disable'}>
-                    <Feedback 
-                        status={'error'}
-                        title={'Não foi possível realizar o seu cadastro'}
-                        subTitle={'Não se preocupe, você pode tentar novamente mais tarde.'}
-                        btnName={'Login'}
-                        click={()=>''}
-                            
-                    />
-
-                </div>
                 </div>
                 
             </div>

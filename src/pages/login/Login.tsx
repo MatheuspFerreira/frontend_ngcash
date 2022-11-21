@@ -1,26 +1,66 @@
 import { LockOutlined, UserOutlined, StarOutlined } from '@ant-design/icons';
-import { Button, Form, Input } from 'antd';
-import React, { useState } from 'react';
+import { Button, Form, Input, notification } from 'antd';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import login from '../../actions/auth/login';
-import celphoneLogo from '../../_assets/ngcash.png'
+import verifyToken from '../../actions/auth/verify-token';
+import celphoneLogo from '../../_assets/ngcash.png';
 import './login.css';
 
+type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
 export function Login () {
-    const [userName, setUserName]= useState<string>('')
-    const [password, setPassword]= useState<string>('')
+    const [userName, setUserName]= useState<string>('');
+    const [password, setPassword]= useState<string>('');
+    const navigate = useNavigate();
 
-    const navigate = useNavigate()
+
+    const openNotificationWithIcon = (type: NotificationType, message:string, description:string) => {
+        notification[type]({
+          message: message,
+          description: description
+          
+        });
+    };
+
+    useEffect(()=> {
+        async function verifyLogin () {
+            const token = localStorage.getItem('token');
+
+            if(token) {
+                const verify = await verifyToken();
+
+                if(verify?.error) {
+                    return;
+
+                }else if(verify.username){
+                    navigate(
+                        '/home', 
+                        {
+                            replace:true
+                        }
+                    );
+
+                };
+
+            }else {
+                return;
+            };
+
+        };
+
+        verifyLogin();
+
+    },[navigate]);
 
     async function createLogin () {
-        console.log(userName)
-        console.log(password)
-        const getLogin = await login(userName, password)
+        const getLogin = await login(userName, password);
         console.log(getLogin)
-        if(getLogin?.error) {
 
-            console.log(getLogin)
+        if(getLogin?.error) {
+            openNotificationWithIcon('error', 'Atenção!', `${getLogin.message}`);
+           
+            
             return;
         };
 
@@ -29,14 +69,11 @@ export function Login () {
             {
                 replace:true
             }
-        )
+        );
 
-
-    }
+    };
 
     
-
-
     return (
         <div className='Login__container'>
             <div className='Login__firstContent'>
@@ -65,7 +102,12 @@ export function Login () {
                             name="username"
                             rules={[{ required: true, message: 'Please input your Username!' }]}
                         >
-                            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" onChange={event => setUserName(event.target.value)}/>
+                            <Input 
+                                prefix={<UserOutlined 
+                                className="site-form-item-icon" />} 
+                                placeholder="Username" 
+                                onChange={event => setUserName(event.target.value)}
+                            />
                         </Form.Item>
                         <Form.Item
                             name="password"
@@ -82,8 +124,13 @@ export function Login () {
                         <Form.Item name="remember" valuePropName="checked" noStyle>
                         <Form.Item>
                             
-                            <Button type="primary" htmlType="submit" className="login-form-button" onClick={createLogin}>
-                            Entrar 
+                            <Button 
+                                type="primary" 
+                                htmlType="submit" 
+                                className="login-form-button" 
+                                onClick={createLogin}
+                            >
+                                Entrar 
                             </Button> 
                              
                         </Form.Item>

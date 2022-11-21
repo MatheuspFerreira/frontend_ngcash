@@ -1,11 +1,15 @@
-
-export default async function verifyToken() {
+export default async function register(username:string, password:string) {
 
     try {
         const token = localStorage.getItem('token');
 
-        const response = await fetch(`http://localhost:3333/auth/verify-token`,{
-        method:'get',
+        const response = await fetch(`http://localhost:3333/create`,{
+        method:'post',
+        body:JSON.stringify({
+            username:username,
+            password:password
+
+        }),
         headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -17,12 +21,12 @@ export default async function verifyToken() {
         return res;
 
     }catch(error){
-        console.log(error)
+        console.log(error);
         return({
             error:true,
             message:error
         });
 
-    }
+    };
 
-}
+};

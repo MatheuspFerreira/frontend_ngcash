@@ -1,10 +1,10 @@
 
-export default async function verifyToken() {
+export default async function userLogged() {
 
     try {
         const token = localStorage.getItem('token');
 
-        const response = await fetch(`http://localhost:3333/auth/verify-token`,{
+        const response = await fetch(`http://localhost:3333/logged`,{
         method:'get',
         headers: {
             Authorization: `Bearer ${token}`,
@@ -17,12 +17,12 @@ export default async function verifyToken() {
         return res;
 
     }catch(error){
-        console.log(error)
+        console.log(error);
         return({
             error:true,
             message:error
         });
 
-    }
+    };
 
-}
+};
