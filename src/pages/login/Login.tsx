@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import login from '../../actions/auth/login';
 import verifyToken from '../../actions/auth/verify-token';
-import { Carregando } from '../../components/carregando';
+import { Loading } from '../../components/loading';
 import celphoneLogo from '../../_assets/ngcash.png';
 import './login.css';
 
@@ -132,7 +132,7 @@ export function Login () {
 
                         {
                             loading ?
-                            < Carregando
+                            < Loading
                                 textCarregando='Aguarde...'
                             />
                             :

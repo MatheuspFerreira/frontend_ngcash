@@ -1,33 +1,25 @@
 
 import { LogoutOutlined, BellFilled, DollarCircleOutlined, AppstoreOutlined } from '@ant-design/icons';
-import { Button, Form, Input, notification } from 'antd';
+import { Form, Input } from 'antd';
 import { Tooltip } from 'antd';
 import { useEffect, useState } from 'react';
+import getAllUser from '../../actions/user/getAllUser';
 import userLogged from '../../actions/user/logged';
-import { Carregando } from '../../components/carregando';
+import { Loading } from '../../components/loading';
+import { Search } from '../../components/search';
 import logo from '../../_assets/logo-ngcash-branco.88c5860.svg';
 import './home.css';
-const { Search } = Input;
-const onSearch = (value: string) => console.log(value);
-type NotificationType = 'success' | 'info' | 'warning' | 'error';
+
 
 export function Home () {
     const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
     const [userData, setUserData]= useState<any>([]);
+    const [listData, setListData]= useState<any>([]);
     const [typeTransaction, setTypeTransaction]= useState<string>('All');
     const [loading, setLoading] = useState<boolean>(false);
 
-    const openNotificationWithIcon = (type: NotificationType, message:string, description:string) => {
-        notification[type]({
-          message: message,
-          description: description
-          
-        });
-    };
 
     useEffect(() => {
-        
-        
         if(!userData.user) {
             logged();
             return;
@@ -35,24 +27,23 @@ export function Home () {
 
         async function logged () {
             setLoading(true)
-
-            const data = await userLogged()
-            
+            const data = await userLogged();
+            const userList = await getAllUser();
+            console.log(userList)
+        
             setUserData(data);
+            setListData(userList);
 
             if(data.error){
                 setLoading(false)
                 
                 return;
-    
             };
             setLoading(false)
-         
-            
-           
+
         };
-        console.log(userData)
-    },[userData])
+        
+    },[userData, listData]);
 
     function logOut () {
         localStorage.clear();
@@ -81,22 +72,20 @@ export function Home () {
                     <h2><DollarCircleOutlined/> Transferir</h2>
                     <div className='Home__saldo'>
                         <p>Saldo atual</p>
-                        <Input.Password
-                            className='Home__saldoInput'
-                            placeholder="Saldo"
-                            visibilityToggle={{ visible: passwordVisible, onVisibleChange: setPasswordVisible }}
-                            readOnly={true}
-                            value={userData.account ? `R$ ${parseInt(userData.account.balance).toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}` : "" }
-                        />
+                        <Form>
+                            <Input.Password
+                                className='Home__saldoInput'
+                                placeholder="Saldo"
+                                visibilityToggle={{ visible: passwordVisible, onVisibleChange: setPasswordVisible }}
+                                
+                                readOnly={true}
+                                value={userData.account ? `R$ ${parseInt(userData.account.balance).toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}` : "" }
+                            />
+                        </Form>
                     </div>
-                    <div>
-                        <Search 
-                            placeholder="Digite nome do usuário para transferir" 
-                            allowClear onSearch={onSearch} 
-                            id='Home__search'
-                        />
-
-                    </div>
+                    <Search 
+                        data={listData}
+                    />
                 </div>
                 <h2><AppstoreOutlined /> Histórico de transações</h2>
                 <div className='Home__secondContent'>
@@ -110,21 +99,25 @@ export function Home () {
                                 <li>Data</li>
                                 <li>Tipo</li>
                             </ul>
-
-                            { loading && <Carregando />}
+                            { loading && <Loading />}
                             <div className={ loading ? '--Disable': ''}>
                                 {
                                     typeTransaction === 'All' && userData.transactions
                                     && 
-
-                                    userData.transactions.debited.map((current:any )=> {
+                                    userData.transactions.debited.map((current:any, index:string )=> {
                                         const formatDate = current.createdAt.split('-').reverse()
+                                        const userTransactionName = listData.filter((callback:any)=>{
+                                            //console.log(callback.username)
+
+                                            return callback.accountId === current.creditedAccountId && callback.username
+                                        })
+                                        //console.log(current)
 
                                         return(
-                                            <ul>
+                                            <ul key={index} >
                                                 <li>{current.id}</li>
-                                                <li>Matheus</li>
-                                                <li>Matheus</li>
+                                                <li>{userData.user.username}</li>
+                                                <li>{userTransactionName[0].username}</li>
                                                 <li>{`R$ ${parseInt(current.value).toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}`}</li>
                                                 <li>{`${formatDate[0]}/${formatDate[1]}/${formatDate[2]}`}</li>
                                                 <li>Cash-Out</li>
@@ -137,14 +130,19 @@ export function Home () {
                                     typeTransaction === 'All' && userData.transactions
                                     && 
                                     
-                                    userData.transactions.credited.map((current:any )=> {
+                                    userData.transactions.credited.map((current:any, index:string )=> {
                                         const formatDate = current.createdAt.split('-').reverse()
+                                        const userTransactionName = listData.filter((callback:any)=>{
+                                            console.log(callback.username)
+
+                                            return callback.accountId === current.debitedAccountId && callback.username
+                                        })
 
                                         return(
-                                            <ul>
+                                            <ul key={index}>
                                                 <li>{current.id}</li>
-                                                <li>Matheus</li>
-                                                <li>Matheus</li>
+                                                <li>{userTransactionName[0].username}</li>
+                                                <li>{userData.user.username}</li>
                                                 <li>{`R$ ${parseInt(current.value).toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}`}</li>
                                                 <li>{`${formatDate[0]}/${formatDate[1]}/${formatDate[2]}`}</li>
                                                 <li>Cash-In</li>
@@ -157,14 +155,19 @@ export function Home () {
                                     typeTransaction === 'Cash-In' && userData.transactions
                                     && 
                                     
-                                    userData.transactions.credited.map((current:any )=> {
+                                    userData.transactions.credited.map((current:any, index:string )=> {
                                         const formatDate = current.createdAt.split('-').reverse()
+                                        const userTransactionName = listData.filter((callback:any)=>{
+                                            console.log(callback.username)
+
+                                            return callback.accountId === current.debitedAccountId && callback.username
+                                        })
 
                                         return(
-                                            <ul>
+                                            <ul key={index}>
                                                 <li>{current.id}</li>
-                                                <li>Matheus</li>
-                                                <li>Matheus</li>
+                                                <li>{userTransactionName[0].username}</li>
+                                                <li>{userData.user.username}</li>
                                                 <li>{`R$ ${parseInt(current.value).toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}`}</li>
                                                 <li>{`${formatDate[0]}/${formatDate[1]}/${formatDate[2]}`}</li>
                                                 <li>Cash-In</li>
@@ -178,14 +181,20 @@ export function Home () {
                                     typeTransaction === 'Cash-Out' && userData.transactions
                                     && 
                                     
-                                    userData.transactions.debited.map((current:any )=> {
+                                    userData.transactions.debited.map((current:any, index:string )=> {
+                                        
                                         const formatDate = current.createdAt.split('-').reverse()
+                                        const userTransactionName = listData.filter((callback:any)=>{
+                                            console.log(callback.username)
 
+                                            return callback.accountId === current.creditedAccountId && callback.username
+                                        })
+                                        
                                         return(
-                                            <ul>
+                                            <ul key={index}>
                                                 <li>{current.id}</li>
-                                                <li>Matheus</li>
-                                                <li>Matheus</li>
+                                                <li>{userData.user.username}</li>
+                                                <li>{userTransactionName[0].username}</li>
                                                 <li>{`R$ ${parseInt(current.value).toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}`}</li>
                                                 <li>{`${formatDate[0]}/${formatDate[1]}/${formatDate[2]}`}</li>
                                                 <li>Cash-Out</li>
@@ -196,14 +205,13 @@ export function Home () {
 
                                 }   
 
-                            </div>
-                                                   
+                            </div>                           
                         </div>
                         <div className='Home__filter'>
                             <h3>Filtrar</h3>
                             <section>
                                 <label htmlFor="dentificação_do_cliente">Tipo de transação</label>
-                                <Tooltip placement="bottom" title="Filtrar por">
+                                <Tooltip placement="bottom" title="Filtrar por tipo de transação">
                                     <select name="Identificação_do_cliente" required className='Home__inputOptions' onChange={event=>setTypeTransaction(event.target.value)}>
                                         <option  value={"All"} >All</option>
                                         <option  value={"Cash-In"} >Cash-In</option>
@@ -212,9 +220,10 @@ export function Home () {
                                 </Tooltip>
                             </section>
                             <section>
+                            <Tooltip placement="bottomRight" title="Filtrar por data">
                                 <label htmlFor="date">Data da transação</label>
                                 <input type="date" name='date' className='Home__inputData'/>
-
+                            </Tooltip>
                             </section>
                         </div>
                     </div>

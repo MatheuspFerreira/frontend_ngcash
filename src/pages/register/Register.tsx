@@ -2,7 +2,7 @@ import { LockOutlined, UserOutlined} from '@ant-design/icons';
 import { Button, Form, Input, notification } from 'antd';
 import { useState } from 'react';
 import register from '../../actions/user/register';
-import { Carregando } from '../../components/carregando';
+import {Loading } from '../../components/loading';
 import { Feedback } from '../../components/feedback';
 import './register.css';
 
@@ -82,7 +82,7 @@ export function Register () {
                                 
                         {
                             loading ?
-                            < Carregando
+                            < Loading
                                 textCarregando='Aguarde...'
                             />
                             :
