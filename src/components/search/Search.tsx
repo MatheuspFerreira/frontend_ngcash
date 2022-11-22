@@ -39,7 +39,7 @@ export function Search ({data=[]}:any) {
         };
 
       if(transferBalance.success){
-            openNotificationWithIcon('success', 'Transação realizada!', transferBalance.message);
+            openNotificationWithIcon('success', 'Transação realizada, Aguarde!', transferBalance.message);
             setLoading(false);
             setIsModalOpen(false);
             setTimeout(()=> {

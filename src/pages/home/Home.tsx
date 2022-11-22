@@ -115,7 +115,7 @@ export function Home () {
                                 value={
                                     userData.account 
                                     ? 
-                                    `R$ ${parseInt(userData.account.balance).toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}` 
+                                    `R$ ${parseFloat(userData.account.balance).toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}` 
                                     : 
                                     ""
                                 }
@@ -164,7 +164,7 @@ export function Home () {
                                                     <li>{current.id}</li>
                                                     <li>{userData.user.username}</li>
                                                     <li>{userTransactionName[0].username}</li>
-                                                    <li>{`R$ ${parseInt(current.value).toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}`}</li>
+                                                    <li>{`R$ ${parseFloat(current.value).toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}`}</li>
                                                     <li>{`${formatDate[0]}/${formatDate[1]}/${formatDate[2]}`}</li>
                                                     <li>Cash-Out</li>
                                                 </ul>

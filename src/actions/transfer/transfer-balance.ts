@@ -3,6 +3,7 @@ export default async function transfer(userCashIn:any, value:number) {
    
     try {
         const token = localStorage.getItem('token');
+        console.log(value)
 
         const response = await fetch(`http://localhost:3333/account/transfer`,{
         method:'post',
