@@ -14,7 +14,6 @@ export function Register () {
     const [password, setPassword] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
 
-    
 
     const openNotificationWithIcon = (type: NotificationType, message:string, description:string) => {
         notification[type]({
@@ -25,8 +24,9 @@ export function Register () {
     };
 
     async function userRegister () {
-        setLoading(true)
+        setLoading(true);
         const userRegister = await register(username, password);
+        console.log(userRegister)
 
         if(userRegister.error){
             setLoading(false)
@@ -34,7 +34,7 @@ export function Register () {
             return;
 
         };
-        setLoading(false)
+        setLoading(false);
         setResult(true);
         
     }
@@ -47,10 +47,7 @@ export function Register () {
                 <h3>Cadastre-se</h3>
                 <Form
                     name="normal_login"
-                    className="login-form"
-                    
-                   
-                    
+                    className="login-form"                              
                 >
                     <Form.Item
                         name="username"
@@ -97,23 +94,17 @@ export function Register () {
                     </Form.Item>
     
                 </Form>
-
                 </div>
                 <div className={ result ? 'Register__result' : '--Disable'}>
                 <Feedback 
-                    status={'success'}
                     title={'Seu cadastro foi realizado com sucesso!'}
                     subTitle={'Agora é fazer o login e aproveitar todos os benefícios'}
                     btnName={'Login'}
-                    click={()=>''}
+                    click={()=>window.location.pathname='/'}
                         
                 />
-                </div>
-                
-            </div>
-            
-
+                </div>               
+            </div>           
         </div>
-
     );
 }

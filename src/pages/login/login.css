@@ -126,7 +126,6 @@
         font-size: 1.1rem;
         color: white;
         font-weight: bold;
-        
     
     }
     
@@ -154,7 +153,6 @@
        
     }
 
-    
     .Login__celphone {
         display: none;
   
@@ -166,15 +164,14 @@
         display: flex;
         max-width: 700px;
         margin: 0;
+
     }
 
     .ant-form-item {
         font-size: 12px !important;
+
     }
     
-      
-   
-
 }
 
 @media screen and (max-width: 440px) {

@@ -184,8 +184,6 @@
 
 }
 
-
-
 .Home__secondContent ul {
     width: 100%;
     display: flex;
@@ -218,6 +216,7 @@
     border-radius: 10px;
     box-shadow: 0px 5px 15px -5px rgb(0 0 0 / 31%);
     padding: 10px;
+
 }
 
 .Home__filter h3 {
@@ -236,7 +235,6 @@
     display: none;
 }
 
-
 @media screen and (max-width:1344px) {
 
     .Home__headerContent h1{
@@ -247,8 +245,6 @@
     .Home__bntLogOut {
         font-size: 20px !important;
        
-       
-        
     }
 
     .Home__logo {
@@ -265,11 +261,13 @@
 
     .Home__saldo p {
         font-size: 18px;
+
     }
 
     .Home__saldoInput {
         min-width: 130px !important;
         font-size: 12px !important;
+
     }
     
 }
@@ -279,6 +277,7 @@
 @media screen and (max-width:920px) {
     .Home__header{
         margin-bottom: 30px;
+
     }
 
     .Home__headerContent {
@@ -304,11 +303,13 @@
 
     .Home__firstContent {
         right: 30%;
+
     }
 
     .Home__secondContent {
         width: 90%;
         min-width: 350px
+
     }
 
     .Home__secondContent li {
@@ -337,10 +338,9 @@
         display: flex;
         align-items: center;
         justify-content: center;
+
     }
      
-
-    
 }
 
 @media screen and (max-width:610px) {
@@ -374,6 +374,7 @@
 
     .Home__firstContent {
         margin-top: 20%;
+
     }
 
     #Home__search  {
@@ -388,6 +389,7 @@
         padding: 10px;
 
     }
+
     .Home__filter label {
         margin: 5px 10px;
         font-weight: bold;
@@ -408,14 +410,14 @@
 
     .Home__secondContent ul{
         gap: 10px;
+
     }
 
     .Home__secondContent li  {
         font-size: 11.5px;
 
     }
-    
-    
+
 }
 
 @media screen and (max-width:410px) {
@@ -499,6 +501,5 @@
         
     }
 
-    
 }
 

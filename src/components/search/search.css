@@ -3,10 +3,9 @@
     padding: 0;
 }
 
-
 .Search__span {
-    
     font-weight: bold !important;
+
 }
 
 .Search__inputValue {
@@ -22,13 +21,16 @@ input[type=number]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     
 }
+
 input[type=number] { 
    -moz-appearance: textfield;
    appearance: textfield;
+
 }
 
 .Search__modalInput {
     display: flex;
     align-items: baseline;
     gap: 5px;
+    
 }

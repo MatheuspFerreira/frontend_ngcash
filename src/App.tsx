@@ -50,9 +50,6 @@ function App() {
         </Routes>
         <Footer />
       </>
-    
-
-   
   );
 }
 

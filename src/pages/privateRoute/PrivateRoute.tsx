@@ -17,7 +17,7 @@ export function PrivateRoute ({ children }: any) {
                     {replace:true}
     
                 );
-            }
+            };
 
           const verify = await verifyToken();
 

@@ -16,7 +16,6 @@ export function Login () {
     const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
 
-
     const openNotificationWithIcon = (type: NotificationType, message:string, description:string) => {
         notification[type]({
           message: message,
@@ -56,27 +55,23 @@ export function Login () {
     },[navigate]);
 
     async function createLogin () {
-        setLoading(true)
+        setLoading(true);
         const getLogin = await login(userName, password);
-        console.log(getLogin)
 
         if(getLogin?.error) {
             openNotificationWithIcon('error', 'Atenção!', `${getLogin.message}`);
-            setLoading(false)
+            setLoading(false);
            
-            
             return;
         };
 
         setLoading(false)
-
         navigate(
             '/home', 
             {
                 replace:true
             }
         );
-
     };
 
     
@@ -102,7 +97,6 @@ export function Login () {
                     <Form
                         name="normal_login"
                         className="login-form"
-
                         >
                         <Form.Item
                             name="username"
@@ -145,15 +139,9 @@ export function Login () {
                                 Entrar 
                             </Button> 
                             
-                            
-                        } 
-                            
-                            
-                             
+                        }    
                         </Form.Item>
-                        
                         </Form.Item>
-                            
                             <p className="login-form-forgot">
                                 Esqueci minha senha
                             </p>
@@ -161,10 +149,8 @@ export function Login () {
                                 Registre-se agora!
                             </p>
                         </Form.Item>
- 
                     </Form>
                 </div>
-               
             </div>
         </div>
     )

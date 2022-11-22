@@ -1,24 +1,22 @@
 import { Mentions, Tooltip, Modal, notification } from 'antd';
-
-import type { OptionProps } from 'antd/es/mentions';
 import { useState } from 'react';
 import transfer from '../../actions/transfer/transfer-balance';
 import { Loading } from '../loading';
 import './search.css';
-
 const { Option } = Mentions;
+
 type NotificationType = 'success' | 'info' | 'warning' | 'error';
+
 export function Search ({data=[]}:any) {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [userCashIn, setUserCashIn] = useState<any>([]);
-    const [value, setValue] = useState<any>(0);
+    const [value, setValue] = useState<number>(0);
     const [loading, setLoading] = useState<boolean>(false)
 
     const onSelect = (option: any) => {
-        //console.log('select', option);
         setIsModalOpen(true);
         setUserCashIn(data[option.key])
-        console.log(data)
+        
     };
 
     const openNotificationWithIcon = (type: NotificationType, message:string, description:string) => {
@@ -29,46 +27,48 @@ export function Search ({data=[]}:any) {
         });
     };
 
-  
     async function handleOk() {
-        setLoading(true)
-      const transferBalance = await transfer(userCashIn,value)
-      if(transferBalance.error) {
-        openNotificationWithIcon('error', 'Atenção!', transferBalance.message)
-        setLoading(false)
-        setIsModalOpen(false);
-        console.log(transferBalance.error)
+      setLoading(true);
+      const transferBalance = await transfer(userCashIn,value);
 
-      };
+      if(transferBalance.error) {
+            openNotificationWithIcon('error', 'Atenção!', transferBalance.message);
+            setLoading(false);
+            setIsModalOpen(false);
+            
+        };
 
       if(transferBalance.success){
-        openNotificationWithIcon('success', 'Transação realizada!', transferBalance.message)
-        setLoading(false)
-        setIsModalOpen(false);
-        setTimeout(()=> {
-            window.location.reload();
+            openNotificationWithIcon('success', 'Transação realizada!', transferBalance.message);
+            setLoading(false);
+            setIsModalOpen(false);
+            setTimeout(()=> {
+                window.location.reload();
+                
+            }, 5000)
             
-        }, 5000)
-        console.log(transferBalance.success)
-
-    }
-
-
+        };
 
     };
-  
+
     const handleCancel = () => {
       setIsModalOpen(false);
+
     };
 
     function onlyNumbers (event:any) {
-        setValue(event.target.value)
-        //new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format()
-    }
+        setValue(event.target.value);
+        
+    };
+
+
 
     return (
         <>
-            <Tooltip placement="top" title="Digite @ para acessar a lista de usuários">
+            <Tooltip 
+                placement="top" 
+                title="Digite @ para acessar a lista de usuários"
+            >
                 <Mentions
                     style={{ width: '100%', fontSize:'14px' }}
                     onSelect={onSelect}
@@ -78,15 +78,27 @@ export function Search ({data=[]}:any) {
                     {data.length > 0 && 
 
                         data.map((current:any, index:any)=> {
+                            return (
+                                <Option 
+                                    key={index} 
+                                    value={`${current.username}`}
+                                >
+                                    {`Id:${current.id} Username:${current.username}`}
 
-                            return <Option key={index} value={`${current.username}`}>{`Id:${current.id} Username:${current.username}`}</Option>
+                                </Option>
+                            )
 
                         })
                     
                     }
                 </Mentions>
             </Tooltip>
-            <Modal title="Operação de transferência" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+            <Modal 
+                title="Operação de transferência" 
+                open={isModalOpen} 
+                onOk={handleOk} 
+                onCancel={handleCancel}
+            >
                 {
                     loading 
                     && 
@@ -100,7 +112,10 @@ export function Search ({data=[]}:any) {
                     <p>{userCashIn.value && userCashIn.value }</p>
                     <label htmlFor="valor" className='Search__span'>Valor</label><br/>
                     
-                        <Tooltip placement="bottomLeft" title="Digite o valor que deseja transferir">
+                        <Tooltip 
+                            placement="bottomLeft" 
+                            title="Digite o valor que deseja transferir"
+                        >
                             <div  className='Search__modalInput'>
                                 <p>R$</p>
                                 <input 
@@ -110,23 +125,13 @@ export function Search ({data=[]}:any) {
                                     className='Search__inputValue' 
                                     placeholder='Digite o valor' 
                                     onChange={event=>onlyNumbers(event)}
-                                    
-                                    
+                            
                                 />
-
-                            </div>
-                        
-                            
-                            
+                            </div>                                                 
                         </Tooltip>
-                    </div>
-                
-                
-            </Modal>
-
-            
+                    </div>                            
+            </Modal>          
         </>
-
     );
    
 
